@@ -7,6 +7,7 @@
 void printmenu() {
 	printf("Выберите функцию:\n");
 	printf("1) Массив чисел\n");
+	printf("2) Соеденение строк\n");
 	printf("0) Выйти из программы\n");
 	printf("Ваш выбор: ");
 }
@@ -17,7 +18,7 @@ void randarray(int numberOfElements) {
 	float srar = 0;
 	printf("Ваш массив: ");
 	for (int i = 0; i < numberOfElements; i++) {
-		arr[i] = -100 + rand() % 200;
+		arr[i] = -1000 + rand() % 2001;
 		printf("%d ", arr[i]);
 		if (mini > arr[i]) 
 			mini = arr[i];
@@ -31,6 +32,43 @@ void randarray(int numberOfElements) {
 	printf("\n- Среднее арифметическое элементов: %.2f\n", srar);
 
 	free(arr);
+}
+
+void strmerge() {
+	char* str = (char*)malloc(sizeof(char) * 1000);
+	int s = 0;
+	char c;
+
+	getchar();
+	
+	printf("Введите текст 1: ");
+
+	while ((c = getchar()) != '\n') {
+		str[s] = c;
+		s++;
+	}
+
+	if (str[s - 1] != ' ') {
+		str[s] = ' ';
+		s++;
+	}
+
+	printf("Введите текст 2: ");
+
+	while ((c = getchar()) != '\n') {
+		str[s] = c;
+		s++;
+	}
+
+	printf("Результат: ");
+
+	for (int i = 0; i < s; i++) {
+		printf("%c", str[i]);
+	}
+
+	printf("\n");
+
+	free(str);
 }
 
 int main() {
@@ -50,7 +88,11 @@ start:
 		randarray(n);
 		system("pause");
 		goto start;
-		break;
+	case 2:
+		system("cls");
+		strmerge();
+		system("pause");
+		goto start;
 	case 0:
 		return 0;
 	default:
