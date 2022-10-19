@@ -32,7 +32,6 @@ void randarray(int numberOfElements) {
 	printf("\n- Min: %d", mini);
 	printf("\n- Max: %d", maxi);
 	printf("\n- —реднее арифметическое элементов: %.2f\n", srar);
-
 	free(arr);
 }
 
@@ -40,36 +39,26 @@ void strmerge() {
 	char* str = (char*)malloc(sizeof(char) * 1000);
 	int s = 0;
 	char c;
-
 	getchar();
-	
 	printf("¬ведите текст 1: ");
-
 	while ((c = getchar()) != '\n') {
 		str[s] = c;
 		s++;
 	}
-
 	if (str[s - 1] != ' ') {
 		str[s] = ' ';
 		s++;
 	}
-
 	printf("¬ведите текст 2: ");
-
 	while ((c = getchar()) != '\n') {
 		str[s] = c;
 		s++;
 	}
-
 	printf("–езультат: ");
-
 	for (int i = 0; i < s; i++) {
 		printf("%c", str[i]);
 	}
-
 	printf("\n");
-
 	free(str);
 }
 
@@ -121,46 +110,106 @@ void sortevenelmas(int numberOfElements) {
 	free(arr);
 }
 
+int strlen(char* str) {
+	int size = 0;
+	int i = 0;
+	while (str[i] != '\0') {
+		size++;
+		i++;
+	}
+	return size;
+}
+
+int intlen(int number) {
+	int kolvo = 1;
+	while (number >= 10) {
+		kolvo++;
+		number /= 10;
+	}
+	return kolvo;
+}
+
 void draw_table() {
-	int I = 0, J= 0;
+	int I = 0, J = 0, maxlen;
 	char c;
-	
 	printf("¬ведите число столбцов таблицы: ");
 	scanf_s("%d", &I);
-	char** table = (char**)malloc(I * sizeof(char*));
+	char** title = (char**)malloc(I * sizeof(char*));
 	for (int i = 0; i < I; i++) {
-			table[i] = (char*)malloc(100 * sizeof(char));
+			title[i] = (char*)malloc(100 * sizeof(char));
 	}
-
 	for (int i = 0; i < I; i++) {
 		for (int j = 0; j < 100; j++) {
-			table[i][j] = '\0';
+			title[i][j] = '\0';
 		}
 	}
-
 	printf("¬ведите заголовки таблицы:\n");
-
 	getchar();
-
 	for (int i = 0; i < I; i++) {
 		int j = 0;
 		while ((c = getchar()) != '\n' && j < 100) {
-			table[i][j] = c;
+			title[i][j] = c;
 			j++;
 		}
 	}
-
+	printf("\n");
+	printf("¬ведите количество строк таблицы: ");
+	scanf_s("%d", &J);
+	int** line = (int**)malloc(I * sizeof(int*));
 	for (int i = 0; i < I; i++) {
-		printf("\n");
-		for (int j = 0; j <10; j++) {
-			printf("%c", table[i][j]);
+		line[i] = (int*)malloc(J * sizeof(int));
+	}
+	for (int i = 0; i < I; i++) {
+		printf("¬ведите данные дл€ заполнени€ столбца %s: ", title[i]);
+		for (int j = 0; j < J; j++) {
+			scanf_s(" %d", &line[i][j]);
 		}
 	}
 	printf("\n");
+	int* columnlen = (int*)malloc(I * sizeof(int));
 	for (int i = 0; i < I; i++) {
-		free(table[i]);
+		maxlen = 0;
+		if (maxlen < strlen(title[i])) {
+			maxlen = strlen(title[i]);
+		}
+		for (int k = 0; k < I; k++) {
+			if (maxlen < intlen(line[i][k])) {
+				maxlen = intlen(line[i][k]);
+			}
+		}
+		columnlen[i] = maxlen;
 	}
-	free(table);
+	printf("¬аша таблица:\n");
+	for (int i = 0; i < I; i++) {
+		printf("|");
+		printf("%s", title[i]);
+		for (int k = 0; k < (columnlen[i] - strlen(title[i])); k++) {
+			printf(" ");
+		}
+	}
+	printf("|");
+	for (int j = 0; j < J; j++) {
+		printf("\n");
+		printf("|");
+		for (int i = 0; i < I; i++) {
+			printf("%d", line[i][j]);
+			for (int k = 0; k < (columnlen[i] - intlen(line[i][j])); k++) {
+				printf(" ");
+			}
+			printf("|");
+		}
+	}
+	printf("\n");
+	// ачищееение
+	for (int i = 0; i < I; i++) {
+		free(title[i]);
+	}
+	free(title);
+	for (int i = 0; i < I; i++) {
+		free(line[i]);
+	}
+	free(line);
+	free(columnlen);
 }
 
 int main() {
